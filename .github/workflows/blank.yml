@@ -8,7 +8,6 @@ on:
 
 jobs:
   deploy:
-    # Use self-hosted runner with GPU support
     runs-on: self-hosted
     
     steps:
@@ -34,17 +33,15 @@ jobs:
         sudo nvidia-ctk runtime configure --runtime=docker
         
         # Create or update daemon.json
-        sudo tee /etc/docker/daemon.json <<EOF
-        {
-            "default-runtime": "nvidia",
-            "runtimes": {
-                "nvidia": {
-                    "path": "nvidia-container-runtime",
-                    "runtimeArgs": []
-                }
+        echo '{
+          "default-runtime": "nvidia",
+          "runtimes": {
+            "nvidia": {
+              "path": "nvidia-container-runtime",
+              "runtimeArgs": []
             }
-        }
-EOF
+          }
+        }' | sudo tee /etc/docker/daemon.json
         
         # Restart Docker daemon
         sudo systemctl restart docker
