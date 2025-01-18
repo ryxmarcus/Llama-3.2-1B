@@ -75,6 +75,4 @@ jobs:
             "temperature": 0.1
           }'
 
-    - name: Cleanup
-      if: always()
-      run: docker container prune -f
+   
